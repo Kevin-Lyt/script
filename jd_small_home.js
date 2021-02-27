@@ -1,4 +1,4 @@
-/*
+﻿/*
  * @Author: LXK9301 https://github.com/LXK9301
  * @Date: 2020-11-12 11:42:12 
  * @Last Modified by: LXK9301
@@ -43,7 +43,7 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '', message = '';
-let isPurchaseShops = false;//是否一键加购商品到购物车，默认不加购
+let isPurchaseShops = true;//是否一键加购商品到购物车，默认不加购
 $.helpToken = [];
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
@@ -82,7 +82,7 @@ const JD_API_HOST = 'https://lkyl.dianpusoft.cn/api';
       await smallHome();
     }
   }
-  await updateInviteCodeCDN('https://gitee.com/lxk0301/updateTeam/raw/master/shareCodes/jd_updateSmallHomeInviteCode.json');
+  await updateInviteCodeCDN('http://192.168.3.182:8069/shareCodes/jd_updateSmallHomeInviteCode.json');
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
@@ -781,7 +781,7 @@ function login(userName) {
     })
   })
 }
-function updateInviteCode(url = 'https://raw.githubusercontent.com/LXK9301/updateTeam/master/jd_updateSmallHomeInviteCode.json') {
+function updateInviteCode(url = 'https://192.168.3.182:8069/shareCodes/jd_updateSmallHomeInviteCode.json') {
   return new Promise(resolve => {
     $.get({url}, async (err, resp, data) => {
       try {
@@ -880,11 +880,7 @@ function TotalBean() {
               $.isLogin = false; //cookie过期
               return
             }
-            if (data['retcode'] === 0) {
-              $.nickName = data['base'].nickname;
-            } else {
-              $.nickName = $.UserName
-            }
+            $.nickName = data['base'].nickname;
           }
         }
       } catch (e) {
