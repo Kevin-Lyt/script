@@ -1,4 +1,4 @@
-﻿/*
+/*
 京东种豆得豆互助码
 此文件为Node.js专用。其他用户请忽略
 支持京东N个账号
@@ -23,7 +23,6 @@ let PlantBeanShareCodes = [
   'k3dwymcajwbpdn4agxe6btk7oi@mlrdw3aw26j3wvxjhlyueurz3bym6nponohq3ba',//账号一的好友shareCode,不同好友中间用@符号隔开
   'k3dwymcajwbpdn4agxe6btk7oi@mlrdw3aw26j3wvxjhlyueurz3bym6nponohq3ba',//账号一的好友shareCode,不同好友中间用@符号隔开
 ]
-
 // 判断github action里面是否有种豆得豆互助码
 if (process.env.PLANT_BEAN_SHARECODES) {
   if (process.env.PLANT_BEAN_SHARECODES.indexOf('&') > -1) {
@@ -36,7 +35,7 @@ if (process.env.PLANT_BEAN_SHARECODES) {
     PlantBeanShareCodes = process.env.PLANT_BEAN_SHARECODES.split();
   }
 } else if (process.env.JD_COOKIE) {
-  console.log(`由于您secret里面未提供助力码，故此处运行将会给脚本内置的码进行助力，请知晓！`)
+  console.log(`由于您环境变量(PLANT_BEAN_SHARECODES)里面未提供助力码，故此处运行将会给脚本内置的码进行助力，请知晓！`)
 }
 for (let i = 0; i < PlantBeanShareCodes.length; i++) {
   const index = (i + 1 === 1) ? '' : (i + 1);

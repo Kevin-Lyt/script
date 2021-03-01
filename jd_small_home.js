@@ -1,4 +1,4 @@
-﻿/*
+/*
  * @Author: LXK9301 https://github.com/LXK9301
  * @Date: 2020-11-12 11:42:12 
  * @Last Modified by: LXK9301
@@ -43,7 +43,7 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '', message = '';
-let isPurchaseShops = true;//是否一键加购商品到购物车，默认不加购
+let isPurchaseShops = false;//是否一键加购商品到购物车，默认不加购
 $.helpToken = [];
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
@@ -82,7 +82,7 @@ const JD_API_HOST = 'https://lkyl.dianpusoft.cn/api';
       await smallHome();
     }
   }
-  await updateInviteCodeCDN('http://192.168.3.182:8069/shareCodes/jd_updateSmallHomeInviteCode.json');
+  await updateInviteCodeCDN();
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
@@ -143,13 +143,12 @@ async function doChannelsListTask(taskId, taskType) {
   }
 }
 async function helpFriends() {
-  // await updateInviteCode();
-  // if (!$.inviteCodes) await updateInviteCodeCDN();
-  if ($.inviteCodes && $.inviteCodes['inviteCode']) {
-    for (let item of $.inviteCodes.inviteCode) {
-      if (!item) continue
-      await createAssistUser(item, $.createAssistUserID);
-    }
+ // await updateInviteCode();
+ // if (!$.inviteCodes) await updateInviteCodeCDN();
+  if (!$.inviteCodes) await updateInviteCodeCDN('http://adguard.mseweb.tk/shareCodes/jd_updateSmallHomeInviteCode.json');
+  for (let item of $.inviteCodes.inviteCode) {
+    if (!item) continue 
+    await createAssistUser(item, $.createAssistUserID);
   }
 }
 async function doAllTask() {
@@ -781,9 +780,11 @@ function login(userName) {
     })
   })
 }
-function updateInviteCode(url = 'https://192.168.3.182:8069/shareCodes/jd_updateSmallHomeInviteCode.json') {
+function updateInviteCode(url = 'http://adguard.mseweb.tk/shareCodes/jd_updateSmallHomeInviteCode.json') {
   return new Promise(resolve => {
-    $.get({url}, async (err, resp, data) => {
+   $.get({url, headers:{
+        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
+      }}, async (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
@@ -798,9 +799,11 @@ function updateInviteCode(url = 'https://192.168.3.182:8069/shareCodes/jd_update
     })
   })
 }
-function updateInviteCodeCDN(url) {
+function updateInviteCodeCDN(url = 'http://adguard.mseweb.tk/shareCodes/jd_updateSmallHomeInviteCode.json') {
   return new Promise(async resolve => {
-    $.get({url, headers:{"User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.2.2;14.2;%E4%BA%AC%E4%B8%9C/9.2.2 CFNetwork/1206 Darwin/20.1.0")}}, async (err, resp, data) => {
+    $.get({url, headers:{
+        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
+      }}, async (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
@@ -880,7 +883,11 @@ function TotalBean() {
               $.isLogin = false; //cookie过期
               return
             }
-            $.nickName = data['base'].nickname;
+            if (data['retcode'] === 0) {
+              $.nickName = data['base'].nickname;
+            } else {
+              $.nickName = $.UserName
+            }
           }
         }
       } catch (e) {

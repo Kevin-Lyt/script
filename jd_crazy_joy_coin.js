@@ -296,6 +296,7 @@ function getJoyShop() {
             if ($.isNode() && process.env.BUY_JOY_LEVEL) {
               $.log(`当前可购买的最高JOY等级为${$.buyJoyLevel}级\n`)
               $.buyJoyLevel = (process.env.BUY_JOY_LEVEL * 1) > $.buyJoyLevel ? $.buyJoyLevel : process.env.BUY_JOY_LEVEL * 1;
+              $.log(`去购买的JOY等级为${$.buyJoyLevel}级\n`)
               $.cost = shop[$.buyJoyLevel - 1]['coins']
             } else {
               $.cost = shop.length ? shop[shop.length - 1]['coins'] : Infinity
@@ -682,7 +683,11 @@ function TotalBean() {
               $.isLogin = false; //cookie过期
               return
             }
-            $.nickName = data['base'].nickname;
+            if (data['retcode'] === 0) {
+              $.nickName = data['base'].nickname;
+            } else {
+              $.nickName = $.UserName
+            }
           } else {
             console.log(`京东服务器返回空数据`)
           }
