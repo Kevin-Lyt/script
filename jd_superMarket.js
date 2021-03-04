@@ -27,11 +27,11 @@ const $ = new Env('东东超市');
 //Node.js用户请在jdCookie.js处填写京东ck;
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '', jdSuperMarketShareArr = [], notify, newShareCodes;
-const helpAu = false;//给作者助力 免费拿活动
+const helpAu = true;//给作者助力 免费拿活动
 let jdNotify = true;//用来是否关闭弹窗通知，true表示关闭，false表示开启。
 let superMarketUpgrade = true;//自动升级,顺序:解锁升级商品、升级货架,true表示自动升级,false表示关闭自动升级
 let businessCircleJump = true;//小于对方300热力值自动更换商圈队伍,true表示运行,false表示禁止
-let drawLotteryFlag = false;//是否用500蓝币去抽奖，true表示开启，false表示关闭。默认关闭
+let drawLotteryFlag = true;//是否用500蓝币去抽奖，true表示开启，false表示关闭。默认关闭
 let joinPkTeam = true;//是否自动加入PK队伍
 let message = '', subTitle;
 const JD_API_HOST = 'https://api.m.jd.com/api';
@@ -39,7 +39,7 @@ const JD_API_HOST = 'https://api.m.jd.com/api';
 //助力好友分享码
 //此此内容是IOS用户下载脚本到本地使用，填写互助码的地方，同一京东账号的好友互助码请使用@符号隔开。
 //下面给出两个账号的填写示例（iOS只支持2个京东账号）
-let shareCodes = [ ]
+let shareCodes = []
 
 !(async () => {
   await requireConfig();
@@ -317,7 +317,7 @@ async function businessCircleActivity() {
       if (joinPkTeam === 'true') {
         await getTeam();
         console.log(`\n注：PK会在每天的七点自动随机加入LXK9301创建的队伍\n`)
-        await updatePkActivityIdCDN('http://adguard.mseweb.tk/shareCodes/jd_updateTeam ');
+        await updatePkActivityIdCDN('https://gitee.com/lxk0301/updateTeam/raw/master/shareCodes/jd_updateTeam.json');
         console.log(`\nupdatePkActivityId[pkActivityId]:::${$.updatePkActivityIdRes.pkActivityId}`);
         console.log(`\n京东服务器返回的[pkActivityId] ${pkActivityId}`);
         if ($.updatePkActivityIdRes && ($.updatePkActivityIdRes.pkActivityId === pkActivityId)) {
@@ -841,7 +841,7 @@ function smtg_sellMerchandise(body) {
   })
 }
 //新版东东超市
-function updatePkActivityId(url = 'http://adguard.mseweb.tk/shareCodes/jd_updateTeam.json') {
+function updatePkActivityId(url = 'https://raw.githubusercontent.com/LXK9301/updateTeam/master/jd_updateTeam.json') {
   return new Promise(resolve => {
     $.get({url}, async (err, resp, data) => {
       try {
