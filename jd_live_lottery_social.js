@@ -1,33 +1,7 @@
-/*
-女装盲盒
-活动时间：2021-3-22至2021-3-31
-活动地址：https://anmp.jd.com/babelDiy/Zeus/3gpAsWd6UBb1MWvr6PFYjNS4Nexk/index.html
-活动入口：京东app-女装馆-赢京豆
-已支持IOS双京东账号,Node.js支持N个京东账号
-脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
-============Quantumultx===============
-[task_local]
-#女装盲盒
-0 8 22-31/1 3 * https://gitee.com/lxk0301/jd_scripts/raw/master/jd_nzmh.js, tag=女装盲盒, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
-
-================Loon==============
-[Script]
-cron "0 8 22-31/1 3 *" script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_nzmh.js,tag=女装盲盒
-
-===============Surge=================
-女装盲盒 = type=cron,cronexp="0 8 22-31/1 3 *",wake-system=1,timeout=3600,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_nzmh.js
-
-============小火箭=========
-女装盲盒 = type=cron,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_nzmh.js, cronexpr="0 8 22-31/1 3 *", timeout=3600, enable=true
- */
-
-const $ = new Env('女装盲盒抽京豆');
-const notify = $.isNode() ? require('./sendNotify') : '';
+const $ = new Env('直播间抽奖（全局）');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
-//Node.js用户请在jdCookie.js处填写京东ck;
-//IOS等用户直接用NobyDa的jd cookie
-let cookiesArr = [], cookie = '', message;
-
+let cookiesArr = [
+], cookie = '', message='';
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
     cookiesArr.push(jdCookieNode[item])
@@ -37,43 +11,15 @@ if ($.isNode()) {
 } else {
   cookiesArr = [$.getdata('CookieJD'), $.getdata('CookieJD2'), ...jsonParse($.getdata('CookiesJD') || "[]").map(item => item.cookie)].filter(item => !!item);
 }
-
+let lotteryArr = []
 !(async () => {
-  if (!cookiesArr[0]) {
-    $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/', {"open-url": "https://bean.m.jd.com/"});
-    return;
-  }
-  for (let i = 0; i < cookiesArr.length; i++) {
-    if (cookiesArr[i]) {
-      cookie = cookiesArr[i];
-      $.UserName = decodeURIComponent(cookie.match(/pt_pin=(.+?);/) && cookie.match(/pt_pin=(.+?);/)[1])
-      $.index = i + 1;
-      $.isLogin = true;
-      $.nickName = '';
-      $.beans = 0
-      message = '';
-      await TotalBean();
-      console.log(`\n******开始【京东账号${$.index}】${$.nickName || $.UserName}*********\n`);
-      if (!$.isLogin) {
-        $.msg($.name, `【提示】cookie已失效`, `京东账号${$.index} ${$.nickName || $.UserName}\n请重新登录获取\nhttps://bean.m.jd.com/`, {"open-url": "https://bean.m.jd.com/"});
-        if ($.isNode()) {
-          await notify.sendNotify(`${$.name}cookie已失效 - ${$.UserName}`, `京东账号${$.index} ${$.UserName}\n请重新登录获取cookie`);
-        } else {
-          $.setdata('', `CookieJD${i ? i + 1 : ""}`);//cookie失效，故清空cookie。$.setdata('', `CookieJD${i ? i + 1 : "" }`);//cookie失效，故清空cookie。
-        }
-        continue
-      }
-      try {
-        await jdMh('https://anmp.jd.com/babelDiy/Zeus/3gpAsWd6UBb1MWvr6PFYjNS4Nexk/index.html')
-        //3.24-3.26
-        if (new Date().getDate() < 27) await jdMh('https://anmp.jd.com/babelDiy/Zeus/4HVt431hqqWW8Nsb2t9jZKmJp4En/index.html');
-        // await jdMh('https://anmp.jd.com/babelDiy/Zeus/3UGPT8RMBu4kL2YAYN98MgkcDhRq/index.html?wxAppName=jd')
-        // await jdMh('https://anmp.jd.com/babelDiy/Zeus/yiNQjMxQvs3R3SdS4nwa2MFk1FE/index.html?wxAppName=jd')
-      } catch (e) {
-        $.logErr(e)
-      }
-    }
-  }
+  cookie = cookiesArr[0]
+  $.beans = cookiesArr.map(() => 0)
+  $.attend = cookiesArr.map(() => 0)
+  $.acts = 0
+  await main()
+  $.name = '直播间抽奖（全局）'
+  await showMsg()
 })()
   .catch((e) => {
     $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
@@ -82,187 +28,175 @@ if ($.isNode()) {
     $.done();
   })
 
-async function jdMh(url) {
-  try {
-    await getInfo(url)
-    await getUserInfo()
-    await draw()
-    while ($.userInfo.bless >= $.userInfo.cost_bless_one_time) {
-      await draw()
-      await getUserInfo()
-      await $.wait(500)
+async function main() {
+  for (let tab of [1, 76, 80, 77, 88, 78, 82, 89, 118, 113, 131, 132, 79, 96, 142, 155, 222, 243, 276]) {
+    $.page = 1
+    $.currentCount = 0
+    console.log(`当前tab：${tab}`)
+    while ($.page) {
+      console.log(`当前页：${$.page}`)
+      await discoveryLiveList(tab, $.page, $.currentCount)
+      //await $.wait(2*1000)
     }
-    await showMsg();
-  } catch (e) {
-    $.logErr(e)
   }
 }
 
 function showMsg() {
   return new Promise(resolve => {
-    message += `本次运行获得${$.beans}京豆`
-    $.msg($.name, '', `京东账号${$.index}${$.nickName}\n${message}`);
+    for (let i = 0; i < $.beans.length; ++i) {
+      message += `账号${i + 1}获得:${$.beans[i]}京豆（中奖概率${($.attend[i] / $.acts * 100).toFixed(2)}%）\n`
+    }
+    $.msg($.name, '', `${message}`);
     resolve()
   })
 }
 
-function getInfo(url = 'https://anmp.jd.com/babelDiy/Zeus/3DSHPs2xC66RgcCEB8YVLsudqfh5/index.html?wxAppName=jd') {
-  console.log(`url:${url}`)
-  return new Promise(resolve => {
-    $.get({
-      url,
-      headers: {
-        Cookie: cookie
+async function discoveryLiveList(tabId, page, currentCount) {
+  let config = taskGetUrl("liveListWithTabToM", {
+    "tabId": tabId, "page": page, "currentCount": currentCount, "timestamp": +new Date(), "appId": "mini-live"
+  })
+  return new Promise(async resolve => {
+    $.get(config, async (err, resp, data) => {
+      data = JSON.parse(data)
+      if (data.data && data.data.list && data.data.list.length) {
+        $.page++
+        $.currentCount = data.data.currentCount
+      } else {
+        $.page = 0
       }
-    }, (err, resp, data) => {
-      try {
-        $.info = JSON.parse(data.match(/var snsConfig = (.*)/)[1])
-        $.prize = JSON.parse($.info.prize)
-        resolve()
-      } catch (e) {
-        console.log(e)
+      for (let live of data.data.list) {
+        if (live.data && live.data.userName) {
+          $.name = live.data.userName
+          $.id = live.data.id
+          await getLiveActivity(live.data.id)
+          //await $.wait(2*1000)
+        }
       }
+      resolve()
     })
   })
 }
 
-function getUserInfo() {
-  return new Promise(resolve => {
-    $.get(taskUrl('query'), async (err, resp, data) => {
-      try {
-        if (err) {
-          console.log(`${err},${jsonParse(resp.body)['message']}`)
-          console.log(`${$.name} API请求失败，请检查网路重试`)
-        } else {
-          $.userInfo = JSON.parse(data.match(/query\((.*)\n/)[1]).data
-          // console.log(`您的好友助力码为${$.userInfo.shareid}`)
-          console.log(`当前幸运值：${$.userInfo.bless}`)
-          for (let task of $.info.config.tasks) {
-            if (!$.userInfo.complete_task_list.includes(task['_id'])) {
-              console.log(`去做任务${task['_id']}`)
-              await doTask(task['_id'])
-              await $.wait(500)
+
+async function getLiveActivity(liveId = null) {
+  let config = taskGetUrl("liveDetailToM", {"liveId": liveId, "sku": ""})
+  config['headers']['Cookie'] = '1'
+  return new Promise(async resolve => {
+    $.get(config, async (err, resp, data) => {
+      data = JSON.parse(data)
+      if (data.data) {
+        if(data.data.activityRemind) {
+          $.acts++
+          let lottery = data.data.activityRemind
+          if (lottery.length) {
+            lottery = lottery[0]
+            console.log(`【${$.name}】找到抽奖活动！${lottery.data.lotteryId}`)
+            if (!lotteryArr.includes(Number(lottery.data.lotteryId))) {
+              let timeout = 0
+              if (lottery['countdown']) {
+                timeout = lottery['startTime'] - +new Date() + 500
+                console.log(`需要等待 ${timeout} ms`)
+                // await $.wait(timeout)
+              } else
+                await drawLiveActivity(lottery.data.lotteryId, liveId)
+              lotteryArr.push(Number(lottery.data.lotteryId))
+            } else {
+              console.log(`抽奖活动已抽过`)
             }
+          } else {
+            console.log(`【${$.name}】未找到抽奖活动`)
           }
         }
-      } catch (e) {
-        $.logErr(e, resp)
-      } finally {
-        resolve(data);
+      }else{
+        console.log(`被检测到，等待60秒`)
+        await $.wait(60*1000)
+        await getLiveActivity(liveId)
       }
+      resolve()
     })
   })
 }
 
-function doTask(taskId) {
-  let body = `task_bless=10&taskid=${taskId}`
-  return new Promise(resolve => {
-    $.get(taskUrl('completeTask', body), async (err, resp, data) => {
-      try {
-        if (err) {
-          console.log(`${err},${jsonParse(resp.body)['message']}`)
-          console.log(`${$.name} API请求失败，请检查网路重试`)
-        } else {
-          data = JSON.parse(data.match(/query\((.*)\n/)[1])
-          if (data.data.complete_task_list.includes(taskId)) {
-            console.log(`任务完成成功，当前幸运值${data.data.curbless}`)
-            $.userInfo.bless = data.data.curbless
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp)
-      } finally {
-        resolve(data);
-      }
-    })
-  })
-}
-
-function draw() {
-  return new Promise(resolve => {
-    $.get(taskUrl('draw'), async (err, resp, data) => {
-      try {
-        if (err) {
-          console.log(`${err},${jsonParse(resp.body)['message']}`)
-          console.log(`${$.name} API请求失败，请检查网路重试`)
-        } else {
-          data = JSON.parse(data.match(/query\((.*)\n/)[1])
-          if (data.data && data.data.drawflag) {
-            if ($.prize.filter(vo => vo.prizeLevel === data.data.level).length > 0) {
-              console.log(`获得${$.prize.filter(vo => vo.prizeLevel === data.data.level)[0].prizename}`)
-              $.beans += $.prize.filter(vo => vo.prizeLevel === data.data.level)[0].beansPerNum
+async function drawLiveActivity(lotteryId, liveId) {
+  let config = taskGetUrl("liveNomalLotteryToM", {"lotteryId": lotteryId, "liveId": liveId})
+  return new Promise(async resolve => {
+    $.post(config, async (err, resp, data) => {
+      data = JSON.parse(data)
+      if (data && data.data && data.data.lotteryResult !== undefined) {
+        $.bean = null
+        switch (data.data.lotteryResult) {
+          default:
+          case 0:
+          case 2:
+            console.log(`账户1：未抽中`)
+            break
+          case 1:
+            console.log(`账户1：优惠券`)
+            break
+          case 3:
+            console.log('账户1：' + data.data.couponQuota)
+            if (data.data.couponQuota && data.data.couponQuota.match(/(\d+)京豆/)) {
+              $.beans[0] += Number(data.data.couponQuota.match(/(\d+)京豆/)[1])
+              $.bean = Number(data.data.couponQuota.match(/(\d+)京豆/)[1])
             }
-          }
+            $.attend[0]++
+            break
         }
-      } catch (e) {
-        $.logErr(e, resp)
-      } finally {
-        resolve(data);
+        for (let i = 1; i < cookiesArr.length; ++i) {
+          config['headers']['Cookie'] = cookiesArr[i]
+          $.index = i + 1
+          await drawLiveActivity2(config)
+        }
       }
+      resolve()
     })
   })
 }
 
-function taskUrl(function_id, body = '') {
-  body = `activeid=${$.info.activeId}&token=${$.info.actToken}&sceneval=2&shareid=&_=${new Date().getTime()}&callback=query&${body}`
+
+async function drawLiveActivity2(config) {
+  return new Promise(resolve => {
+    $.get(config, (err, resp, data) => {
+      data = JSON.parse(data)
+      if (data && data.data && data.data.lotteryResult !== undefined) {
+        switch (data.data.lotteryResult) {
+          default:
+          case 0:
+            console.log(`账户${$.index}：未抽中`)
+            break
+          case 2:
+            console.log(`账户${$.index}：优惠券`)
+            break
+          case 3:
+            console.log(`账户${$.index}：` + data.data.couponQuota)
+            if (data.data.couponQuota && data.data.couponQuota.match(/(\d+)京豆/)) {
+              $.beans[$.index - 1] += Number(data.data.couponQuota.match(/(\d+)京豆/)[1])
+              $.bean = Number(data.data.couponQuota.match(/(\d+)京豆/)[1])
+            }
+            $.attend[$.index - 1]++
+            break
+        }
+      }
+      resolve()
+    })
+  })
+}
+
+
+function taskGetUrl(function_id, body) {
   return {
-    url: `https://wq.jd.com/activet2/piggybank/${function_id}?${body}`,
+    url: `https://api.m.jd.com/api?appid=mini-live&functionId=${function_id}&t=${+new Date()}&body=${escape(JSON.stringify(body))}`,
     headers: {
-      'Host': 'wq.jd.com',
-      'Accept': 'application/json',
-      'Accept-Language': 'zh-cn',
-      'Content-Type': 'application/json;charset=utf-8',
-      'Origin': 'wq.jd.com',
-      'User-Agent': 'JD4iPhone/167490 (iPhone; iOS 14.2; Scale/3.00)',
-      'Referer': `https://anmp.jd.com/babelDiy/Zeus/xKACpgVjVJM7zPKbd5AGCij5yV9/index.html?wxAppName=jd`,
+      'host': 'api.m.jd.com',
+      'accept': 'application/json, text/plain, */*',
+      'accept-encoding': 'gzip, deflate, br',
+      'accept-language': 'zh-Hans-JP;q=1, en-JP;q=0.9, zh-Hant-TW;q=0.8, ja-JP;q=0.7, en-US;q=0.6',
+      'Content-Type': 'application/x-www-form-urlencoded',
+      "User-Agent": 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.1(0x1800012a) NetType/WIFI Language/zh_CN',
+      'Referer': 'https://servicewechat.com/wx4830b51270836408/13/page-frame.html',
       'Cookie': cookie
     }
   }
-}
-
-function TotalBean() {
-  return new Promise(async resolve => {
-    const options = {
-      "url": `https://wq.jd.com/user/info/QueryJDUserInfo?sceneval=2`,
-      "headers": {
-        "Accept": "application/json,text/plain, */*",
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "zh-cn",
-        "Connection": "keep-alive",
-        "Cookie": cookie,
-        "Referer": "https://wqs.jd.com/my/jingdou/my.shtml?sceneval=2",
-        "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : "JD4iPhone/9.3.5 CFNetwork/1209 Darwin/20.2.0") : ($.getdata('JDUA') ? $.getdata('JDUA') : "JD4iPhone/9.3.5 CFNetwork/1209 Darwin/20.2.0")
-      }
-    }
-    $.post(options, (err, resp, data) => {
-      try {
-        if (err) {
-          console.log(`${JSON.stringify(err)}`)
-          console.log(`${$.name} API请求失败，请检查网路重试`)
-        } else {
-          if (data) {
-            data = JSON.parse(data);
-            if (data['retcode'] === 13) {
-              $.isLogin = false; //cookie过期
-              return
-            }
-            if (data['retcode'] === 0) {
-              $.nickName = (data['base'] && data['base'].nickname) || $.UserName;
-            } else {
-              $.nickName = $.UserName
-            }
-          } else {
-            console.log(`京东服务器返回空数据`)
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp)
-      } finally {
-        resolve();
-      }
-    })
-  })
 }
 
 function safeGet(data) {
@@ -272,7 +206,7 @@ function safeGet(data) {
     }
   } catch (e) {
     console.log(e);
-    console.log(`京东服务器访问数据为空，请检查自身设备网络情况`);
+    console.log(`服务器访问数据为空，请检查自身设备网络情况`);
     return false;
   }
 }
@@ -283,7 +217,7 @@ function jsonParse(str) {
       return JSON.parse(str);
     } catch (e) {
       console.log(e);
-      $.msg($.name, '', '不要在BoxJS手动复制粘贴修改cookie')
+      $.msg($.name, '', '请勿随意在BoxJs输入框修改内容\n建议通过脚本去获取cookie')
       return [];
     }
   }

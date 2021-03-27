@@ -2,7 +2,7 @@
  * @Author: LXK9301 https://github.com/LXK9301
  * @Date: 2020-08-16 18:54:16
  * @Last Modified by: LXK9301
- * @Last Modified time: 2021-1-29 21:22:37
+ * @Last Modified time: 2021-3-4 21:22:37
  */
 /*
 东东超市
@@ -31,7 +31,7 @@ const helpAu = true;//给作者助力 免费拿活动
 let jdNotify = true;//用来是否关闭弹窗通知，true表示关闭，false表示开启。
 let superMarketUpgrade = true;//自动升级,顺序:解锁升级商品、升级货架,true表示自动升级,false表示关闭自动升级
 let businessCircleJump = true;//小于对方300热力值自动更换商圈队伍,true表示运行,false表示禁止
-let drawLotteryFlag = true;//是否用500蓝币去抽奖，true表示开启，false表示关闭。默认关闭
+let drawLotteryFlag = false;//是否用500蓝币去抽奖，true表示开启，false表示关闭。默认关闭
 let joinPkTeam = true;//是否自动加入PK队伍
 let message = '', subTitle;
 const JD_API_HOST = 'https://api.m.jd.com/api';
@@ -39,7 +39,12 @@ const JD_API_HOST = 'https://api.m.jd.com/api';
 //助力好友分享码
 //此此内容是IOS用户下载脚本到本地使用，填写互助码的地方，同一京东账号的好友互助码请使用@符号隔开。
 //下面给出两个账号的填写示例（iOS只支持2个京东账号）
-let shareCodes = []
+let shareCodes = [ // IOS本地脚本用户这个列表填入你要助力的好友的shareCode
+  //账号一的好友shareCode,不同好友的shareCode中间用@符号隔开
+  '-4msulYas0O2JsRhE-2TA5XZmBQ@eU9Yar_mb_9z92_WmXNG0w@eU9YaejjYv4g8T2EwnsVhQ',
+  //账号二的好友shareCode,不同好友的shareCode中间用@符号隔开
+  'aURoM7PtY_Q@eU9Ya-y2N_5z9DvXwyIV0A@eU9YaOnjYK4j-GvWmXIWhA',
+]
 
 !(async () => {
   await requireConfig();
@@ -71,7 +76,6 @@ let shareCodes = []
       //await shareCodesFormat();//格式化助力码
       await jdSuperMarket();
       await showMsg();
-      if (helpAu === true) await helpAuthor();
       // await businessCircleActivity();
     }
   }
@@ -83,24 +87,29 @@ let shareCodes = []
       $.done();
     })
 async function jdSuperMarket() {
-  await receiveGoldCoin();//收金币
-  await businessCircleActivity();//商圈活动
-  await receiveBlueCoin();//收蓝币（小费）
-  // await receiveLimitProductBlueCoin();//收限时商品的蓝币
-  await daySign();//每日签到
-  await BeanSign()//
-  await doDailyTask();//做日常任务，分享，关注店铺，
-  // await help();//商圈助力
-  //await smtgQueryPkTask();//做商品PK任务
-  await drawLottery();//抽奖功能(招财进宝)
-  // await myProductList();//货架
-  // await upgrade();//升级货架和商品
-  // await manageProduct();
-  // await limitTimeProduct();
-  await smtg_shopIndex();
-  await smtgHome();
-  await receiveUserUpgradeBlue();
-  await Home();
+  try {
+    await receiveGoldCoin();//收金币
+    await businessCircleActivity();//商圈活动
+    await receiveBlueCoin();//收蓝币（小费）
+    // await receiveLimitProductBlueCoin();//收限时商品的蓝币
+    await daySign();//每日签到
+    await BeanSign()//
+    await doDailyTask();//做日常任务，分享，关注店铺，
+    // await help();//商圈助力
+    //await smtgQueryPkTask();//做商品PK任务
+    await drawLottery();//抽奖功能(招财进宝)
+    // await myProductList();//货架
+    // await upgrade();//升级货架和商品
+    // await manageProduct();
+    // await limitTimeProduct();
+    await smtg_shopIndex();
+    await smtgHome();
+    await receiveUserUpgradeBlue();
+    await Home();
+    if (helpAu === true) await helpAuthor();
+  } catch (e) {
+    $.logErr(e)
+  }
 }
 function showMsg() {
   $.log(`【京东账号${$.index}】${$.nickName}\n${message}`);
@@ -206,12 +215,14 @@ async function doDailyTask() {
 }
 
 async function receiveGoldCoin() {
+  const options = taskUrl('smtg_newHome', {"shareId":"NhvCboewDl4KLJIZEQcOSY6-HDOplvHeChID78wv70NFtLOIrRmOnfiIA4fYF-QnNYpkkMwaMyAzg7Ac2xx01pm7fmmgOnme6cXRnfn7Iy8kgeInHdZ1ydgqidG81dZbj1xavgze3mWtD011VRZuSw1iX2D6uvtxmaOI1fQ5_Wc","channel":"4"})
+    $.get(options, (err, ersp, data) => {})
   $.goldCoinData = await smtgReceiveCoin({ "type": 0 });
-  if ($.goldCoinData.data.bizCode === 0) {
+  if ($.goldCoinData.data && $.goldCoinData.data.bizCode === 0) {
     console.log(`领取金币成功${$.goldCoinData.data.result.receivedGold}`)
     message += `【领取金币】${$.goldCoinData.data.result.receivedGold}个\n`;
   } else {
-    console.log(`${$.goldCoinData.data.bizMsg}`);
+    console.log(`${$.goldCoinData.data && $.goldCoinData.data.bizMsg}`);
   }
 }
 
@@ -315,15 +326,17 @@ async function businessCircleActivity() {
 
     if (joinStatus === 0) {
       if (joinPkTeam === 'true') {
-        await getTeam();
         console.log(`\n注：PK会在每天的七点自动随机加入LXK9301创建的队伍\n`)
         await updatePkActivityIdCDN('https://gitee.com/lxk0301/updateTeam/raw/master/shareCodes/jd_updateTeam.json');
-        console.log(`\nupdatePkActivityId[pkActivityId]:::${$.updatePkActivityIdRes.pkActivityId}`);
+        console.log(`\nupdatePkActivityId[pkActivityId]:::${$.updatePkActivityIdRes && $.updatePkActivityIdRes.pkActivityId}`);
         console.log(`\n京东服务器返回的[pkActivityId] ${pkActivityId}`);
         if ($.updatePkActivityIdRes && ($.updatePkActivityIdRes.pkActivityId === pkActivityId)) {
+          await getTeam();
           let Teams = []
           Teams = $.updatePkActivityIdRes['Teams'] || Teams;
-          Teams = [...Teams, ...$.getTeams.filter(item => item['pkActivityId'] === `${pkActivityId}`)];
+          if ($.getTeams && $.getTeams.length) {
+            Teams = [...Teams, ...$.getTeams.filter(item => item['pkActivityId'] === `${pkActivityId}`)];
+          }
           const randomNum = randomNumber(0, Teams.length);
 
           const res = await smtg_joinPkTeam(Teams[randomNum] && Teams[randomNum].teamId, Teams[randomNum] && Teams[randomNum].inviteCode, pkActivityId);
@@ -967,6 +980,8 @@ function smtgSignList() {
 }
 function smtgHome() {
   return new Promise((resolve) => {
+    const options = taskUrl('smtg_newHome', {"shareId":"NhvCboewDl4KLJIZEQcOSY6-HDOplvHeChID78wv70NFtLOIrRmOnfiIA4fYF-QnNYpkkMwaMyAzg7Ac2xx01pm7fmmgOnme6cXRnfn7Iy8kgeInHdZ1ydgqidG81dZbj1xavgze3mWtD011VRZuSw1iX2D6uvtxmaOI1fQ5_Wc","channel":"4"})
+    $.get(options, (err, ersp, data) => {})
     $.get(taskUrl('smtg_newHome', { "channel": "18" }), (err, resp, data) => {
       try {
         if (err) {
@@ -1053,6 +1068,7 @@ function smtgDoAssistPkTask(code) {
   })
 }
 function smtgReceiveCoin(body) {
+  $.goldCoinData = {};
   return new Promise((resolve) => {
     $.get(taskUrl('smtg_receiveCoin', body), (err, resp, data) => {
       try {
@@ -1542,7 +1558,7 @@ function TotalBean() {
               return
             }
             if (data['retcode'] === 0) {
-              $.nickName = data['base'].nickname;
+              $.nickName = (data['base'] && data['base'].nickname) || $.UserName;
             } else {
               $.nickName = $.UserName
             }
@@ -1565,10 +1581,10 @@ function getTeam() {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
-          console.log(`${$.name} API请求失败，请检查网路重试`)
+          console.log(`${$.name} supermarket/read/ API请求失败，请检查网路重试`)
         } else {
           data = JSON.parse(data);
-          $.getTeams = data['data'];
+          $.getTeams = data && data['data'];
         }
       } catch (e) {
         $.logErr(e, resp)

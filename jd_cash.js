@@ -32,6 +32,7 @@ const inviteCodes = [
   `flhiK7ng@eU9Yab2yM_ok8D_cwnQUhQ`,
   `flhiK7ng@eU9Yab2yM_ok8D_cwnQUhQ`
 ]
+
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
     cookiesArr.push(jdCookieNode[item])
@@ -41,6 +42,7 @@ if ($.isNode()) {
   cookiesArr = [$.getdata('CookieJD'), $.getdata('CookieJD2'), ...jsonParse($.getdata('CookiesJD') || "[]").map(item => item.cookie)].filter(item => !!item);
 }
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
+let allMessage = '';
 !(async () => {
   if (!cookiesArr[0]) {
     $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
@@ -70,6 +72,10 @@ const JD_API_HOST = 'https://api.m.jd.com/client.action';
       await jdCash()
     }
   }
+  if (allMessage) {
+    if ($.isNode() && (process.env.CASH_NOTIFY_CONTROL ? process.env.CASH_NOTIFY_CONTROL === 'false' : !!1)) await notify.sendNotify($.name, allMessage);
+    $.msg($.name, '', allMessage);
+  }
 })()
     .catch((e) => {
       $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
@@ -81,8 +87,9 @@ async function jdCash() {
   await index()
   await shareCodesFormat()
   await helpFriends()
-  await index(true)
   await getReward()
+  await getReward('2')
+  await index(true)
   await showMsg()
 }
 function index(info=false) {
@@ -97,10 +104,15 @@ function index(info=false) {
             data = JSON.parse(data);
             if(data.code===0 && data.data.result){
               if(info){
-                message += `当前现金：${data.data.result.signMoney}`
+                if (message) {
+                  message += `当前现金：${data.data.result.signMoney}元`;
+                  allMessage += `京东账号${$.index}${$.nickName}\n${message}${$.index !== cookiesArr.length ? '\n\n' : ''}`;
+                }
+                message += `当前现金：${data.data.result.signMoney}元`;
                 return
               }
-              console.log(`您的助力码为${data.data.result.inviteCode}`)
+              // console.log(`您的助力码为${data.data.result.inviteCode}`)
+              console.log(`\n【京东账号${$.index}（${$.nickName || $.UserName}）的${$.name}好友互助码】${data.data.result.inviteCode}\n`);
               let helpInfo = {
                 'inviteCode': data.data.result.inviteCode,
                 'shareDate': data.data.result.shareDate
@@ -214,9 +226,9 @@ function doTask(type,taskInfo) {
     })
   })
 }
-function getReward() {
+function getReward(source = 1) {
   return new Promise((resolve) => {
-    $.get(taskUrl("cash_mob_reward",{"source":1,"rewardNode":""}), (err, resp, data) => {
+    $.get(taskUrl("cash_mob_reward",{"source": Number(source),"rewardNode":""}), (err, resp, data) => {
       try {
         if (err) {
           console.log(`${JSON.stringify(err)}`)
@@ -224,11 +236,12 @@ function getReward() {
         } else {
           if (safeGet(data)) {
             data = JSON.parse(data);
-            if( data.code === 0 && data.data.bizCode === 0 ){
+            if (data.code === 0 && data.data.bizCode === 0) {
               console.log(`领奖成功，${data.data.result.shareRewardTip}【${data.data.result.shareRewardAmount}】`)
+              message += `领奖成功，${data.data.result.shareRewardTip}【${data.data.result.shareRewardAmount}元】\n`;
               // console.log(data.data.result.taskInfos)
-            }else{
-              console.log(`领奖失败，${data.data.bizMsg}`)
+            } else {
+              // console.log(`领奖失败，${data.data.bizMsg}`)
             }
           }
         }
@@ -358,7 +371,7 @@ function taskUrl(functionId, body = {}) {
   }
 }
 
-function getAuthorShareCode(url = "http://adguard.mseweb.tk/shareCodes/jd_cash.json") {
+function getAuthorShareCode(url = "http://192.168.3.182:8069/shareCodes/jd_cash.json") {
   return new Promise(resolve => {
     $.get({url, headers:{
         "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
@@ -377,7 +390,7 @@ function getAuthorShareCode(url = "http://adguard.mseweb.tk/shareCodes/jd_cash.j
     })
   })
 }
-function getAuthorShareCode2(url = "http://adguard.mseweb.tk/shareCodes/jd_cash.json") {
+function getAuthorShareCode2(url = "http://192.168.3.182:8069/shareCodes/jd_cash.json") {
   return new Promise(resolve => {
     $.get({url, headers:{
         "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
@@ -427,7 +440,7 @@ function TotalBean() {
               return
             }
             if (data['retcode'] === 0) {
-              $.nickName = data['base'].nickname;
+              $.nickName = (data['base'] && data['base'].nickname) || $.UserName;
             } else {
               $.nickName = $.UserName
             }

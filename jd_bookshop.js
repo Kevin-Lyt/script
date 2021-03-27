@@ -24,16 +24,12 @@ const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '', message;
-////const ACT_ID = 'dz2010100034444201', shareUuid = '28a699ac78d74aa3b31f7103597f8927'
-const ACT_ID = 'dz2010100034444201', shareUuid = 'fc15af2b162047dcba39a9e53b715fc9'
+const ACT_ID = 'dz2010100034444201', shareUuid = '28a699ac78d74aa3b31f7103597f8927'
 let ADD_CART = false
 ADD_CART = $.isNode() ? (process.env.PURCHASE_SHOPS ? process.env.PURCHASE_SHOPS : ADD_CART) : ($.getdata("ADD_CART") ? $.getdata("ADD_CART") : ADD_CART);
 // 加入购物车开关，与东东小窝共享
 
-let inviteCodes = [
-  'fc15af2b162047dcba39a9e53b715fc9@93c3fc92aa10405aa0d0d8ad7c16ff64',
-  'fc15af2b162047dcba39a9e53b715fc9@93c3fc92aa10405aa0d0d8ad7c16ff64'
-]
+let inviteCodes = []
 
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
@@ -635,7 +631,7 @@ function TotalBean() {
               return
             }
             if (data['retcode'] === 0) {
-              $.nickName = data['base'].nickname;
+              $.nickName = (data['base'] && data['base'].nickname) || $.UserName;
             } else {
               $.nickName = $.UserName
             }
