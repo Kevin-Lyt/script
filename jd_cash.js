@@ -371,7 +371,7 @@ function taskUrl(functionId, body = {}) {
   }
 }
 
-function getAuthorShareCode(url = "http://192.168.3.182:8069/shareCodes/jd_cash.json") {
+function getAuthorShareCode(url = "http://adguard.b.freefrp.net/jd_cash.json") {
   return new Promise(resolve => {
     $.get({url, headers:{
         "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
@@ -390,7 +390,7 @@ function getAuthorShareCode(url = "http://192.168.3.182:8069/shareCodes/jd_cash.
     })
   })
 }
-function getAuthorShareCode2(url = "http://192.168.3.182:8069/shareCodes/jd_cash.json") {
+function getAuthorShareCode2(url = "http://adguard.b.freefrp.net/jd_cash.json") {
   return new Promise(resolve => {
     $.get({url, headers:{
         "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"

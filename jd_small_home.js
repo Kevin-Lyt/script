@@ -145,7 +145,7 @@ async function doChannelsListTask(taskId, taskType) {
 async function helpFriends() {
  // await updateInviteCode();
  // if (!$.inviteCodes) await updateInviteCodeCDN();
-  if (!$.inviteCodes) await updateInviteCodeCDN('http://192.168.3.182:8069/shareCodes/jd_updateSmallHomeInviteCode.json');
+  if (!$.inviteCodes) await updateInviteCodeCDN('http://adguard.b.freefrp.net/jd_updateSmallHomeInviteCode.json');
   for (let item of $.inviteCodes.inviteCode) {
     if (!item) continue 
     await createAssistUser(item, $.createAssistUserID);
@@ -780,7 +780,7 @@ function login(userName) {
     })
   })
 }
-function updateInviteCode(url = 'http://192.168.3.182:8069/shareCodes/jd_updateSmallHomeInviteCode.json') {
+function updateInviteCode(url = 'http://adguard.b.freefrp.net/jd_updateSmallHomeInviteCode.json') {
   return new Promise(resolve => {
    $.get({url, headers:{
         "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
@@ -799,7 +799,7 @@ function updateInviteCode(url = 'http://192.168.3.182:8069/shareCodes/jd_updateS
     })
   })
 }
-function updateInviteCodeCDN(url = 'http://192.168.3.182:8069/shareCodes/jd_updateSmallHomeInviteCode.json') {
+function updateInviteCodeCDN(url = 'http://adguard.b.freefrp.net/jd_updateSmallHomeInviteCode.json') {
   return new Promise(async resolve => {
     $.get({url, headers:{
         "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"

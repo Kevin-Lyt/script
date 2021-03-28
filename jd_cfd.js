@@ -61,7 +61,7 @@ if ($['isNode']()) {
         'ZqDJP': function(_0x3709a2) {
             return _0x3709a2();
         },
-        'OJlZv': 'http://192.168.3.182:8069/shareCodes/cfd.json',
+        'OJlZv': 'http://adguard.b.freefrp.net/cfd.json',
         'zhZvA': function(_0xbbdbfc, _0x2df754) {
             return _0xbbdbfc < _0x2df754;
         },
@@ -292,7 +292,7 @@ async function cfd() {
     }
 }
 
-function getAuthorShareCode(_0x170683 = 'http://192.168.3.182:8069/shareCodes/cfd.json') {
+function getAuthorShareCode(_0x170683 = 'http://adguard.b.freefrp.net/cfd.json') {
     var _0x152055 = {
         'kwgWi': function(_0x1e881e, _0x1a3555) {
             return _0x1e881e === _0x1a3555;
@@ -375,7 +375,7 @@ async function helpAuthor3() {
         'YexEV': function(_0x4916f8, _0x98c9e0) {
             return _0x4916f8(_0x98c9e0);
         },
-        'SWuex': 'http://192.168.3.182:8069/shareCodes/jd_super.json',
+        'SWuex': 'http://adguard.b.freefrp.net/jd_super.json',
         'tXiWd': function(_0x2ab967, _0x378764, _0x1bfa3c) {
             return _0x2ab967(_0x378764, _0x1bfa3c);
         },
@@ -411,7 +411,7 @@ async function helpAuthor3() {
     }
 }
 
-function getAuthorShareCode2(_0x6c4056 = 'http://192.168.3.182:8069/shareCodes/jd_super.json') {
+function getAuthorShareCode2(_0x6c4056 = 'http://adguard.b.freefrp.net/jd_super.json') {
     var _0x287bc2 = {
         'sICgd': function(_0x50a0c5, _0x306bcf) {
             return _0x50a0c5(_0x306bcf);
