@@ -2947,7 +2947,7 @@ function openPeriodBox() {
                         }
                     }
                 } else {
-                    console['log']('随机取' + randomCount + '个码放到您固定的互助码后面(不影响已有固定互助)');
+                    console['log']('随机取0个码放到您固定的互助码后面(不影响已有固定互助)');
                     _0x247c50 = JSON['parse'](_0x247c50);
                 }
             } catch (_0x1bab7d) {
@@ -3216,7 +3216,7 @@ function showMsg() {
                             }
                         } else {
                             if (data) {
-                                console['log']('随机取' + randomCount + '个码放到您固定的互助码后面(不影响已有固定互助)');
+                                console['log']('随机取0个码放到您固定的互助码后面(不影响已有固定互助)');
                                 data = JSON['parse'](data);
                             }
                         }
@@ -3412,7 +3412,7 @@ function readShareCode() {
             _0x487e6c['ZZbiv'](_0x3282db);
         } else {
             $['get']({
-                'url': 'http://jd.turinglabs.net/api/v2/jd/jxcfd/read/' + randomCount + '/',
+                'url': 'http://jd.turinglabs.net/api/v2/jd/jxcfd/read/0/',
                 'timeout': 0x2710
             }, (_0x436d4c, _0x27dcc1, _0x16aebe) => {
                 var _0x160f03 = {
@@ -3462,7 +3462,7 @@ function readShareCode() {
                                         'farm_jstoken': _0x5b603c
                                     });
                                 } else {
-                                    console['log']('随机取' + randomCount + '个码放到您固定的互助码后面(不影响已有固定互助)');
+                                    console['log']('随机取0个码放到您固定的互助码后面(不影响已有固定互助)');
                                     _0x16aebe = JSON['parse'](_0x16aebe);
                                 }
                             }
