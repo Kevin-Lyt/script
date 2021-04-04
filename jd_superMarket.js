@@ -1,14 +1,13 @@
 /*
- * @Author: LXK9301 https://github.com/LXK9301
+ * @Author: lxk0301 https://gitee.com/lxk0301
  * @Date: 2020-08-16 18:54:16
- * @Last Modified by: LXK9301
+ * @Last Modified by: lxk0301
  * @Last Modified time: 2021-3-4 21:22:37
  */
 /*
 东东超市
 活动入口：京东APP首页-京东超市-底部东东超市
 Some Functions Modified From https://github.com/Zero-S1/JD_tools/blob/master/JD_superMarket.py
-支持京东双账号
 东东超市兑换奖品请使用此脚本 https://gitee.com/lxk0301/jd_scripts/raw/master/jd_blueCoin.js
 脚本兼容: QuantumultX, Surge, Loon, JSBox, Node.js
 =================QuantumultX==============
@@ -39,12 +38,7 @@ const JD_API_HOST = 'https://api.m.jd.com/api';
 //助力好友分享码
 //此此内容是IOS用户下载脚本到本地使用，填写互助码的地方，同一京东账号的好友互助码请使用@符号隔开。
 //下面给出两个账号的填写示例（iOS只支持2个京东账号）
-let shareCodes = [ // IOS本地脚本用户这个列表填入你要助力的好友的shareCode
-  //账号一的好友shareCode,不同好友的shareCode中间用@符号隔开
-  '-4msulYas0O2JsRhE-2TA5XZmBQ@eU9Yar_mb_9z92_WmXNG0w@eU9YaejjYv4g8T2EwnsVhQ',
-  //账号二的好友shareCode,不同好友的shareCode中间用@符号隔开
-  'aURoM7PtY_Q@eU9Ya-y2N_5z9DvXwyIV0A@eU9YaOnjYK4j-GvWmXIWhA',
-]
+let shareCodes = []
 
 !(async () => {
   await requireConfig();
@@ -54,7 +48,7 @@ let shareCodes = [ // IOS本地脚本用户这个列表填入你要助力的好�
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
-      $.UserName = decodeURIComponent(cookie.match(/pt_pin=(.+?);/) && cookie.match(/pt_pin=(.+?);/)[1])
+      $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
       $.index = i + 1;
       $.coincount = 0;//收取了多少个蓝币
       $.coinerr = "";
@@ -91,17 +85,17 @@ async function jdSuperMarket() {
     await receiveGoldCoin();//收金币
     await businessCircleActivity();//商圈活动
     await receiveBlueCoin();//收蓝币（小费）
-    // await receiveLimitProductBlueCoin();//收限时商品的蓝币
+    await receiveLimitProductBlueCoin();//收限时商品的蓝币
     await daySign();//每日签到
     await BeanSign()//
     await doDailyTask();//做日常任务，分享，关注店铺，
-    // await help();//商圈助力
-    //await smtgQueryPkTask();//做商品PK任务
+    await help();//商圈助力
+    await smtgQueryPkTask();//做商品PK任务
     await drawLottery();//抽奖功能(招财进宝)
-    // await myProductList();//货架
-    // await upgrade();//升级货架和商品
-    // await manageProduct();
-    // await limitTimeProduct();
+    await myProductList();//货架
+    await upgrade();//升级货架和商品
+    await manageProduct();
+    await limitTimeProduct();
     await smtg_shopIndex();
     await smtgHome();
     await receiveUserUpgradeBlue();
@@ -213,19 +207,142 @@ async function doDailyTask() {
     }
   }
 }
-
+/*
+ *Progcessed By JSDec in 0.02s
+ *JSDec - JSDec.js.org
+ */
 async function receiveGoldCoin() {
-  const options = taskUrl('smtg_newHome', {"shareId":"NhvCboewDl4KLJIZEQcOSY6-HDOplvHeChID78wv70NFtLOIrRmOnfiIA4fYF-QnNYpkkMwaMyAzg7Ac2xx01pm7fmmgOnme6cXRnfn7Iy8kgeInHdZ1ydgqidG81dZbj1xavgze3mWtD011VRZuSw1iX2D6uvtxmaOI1fQ5_Wc","channel":"4"})
-    $.get(options, (err, ersp, data) => {})
-  $.goldCoinData = await smtgReceiveCoin({ "type": 0 });
-  if ($.goldCoinData.data && $.goldCoinData.data.bizCode === 0) {
-    console.log(`领取金币成功${$.goldCoinData.data.result.receivedGold}`)
-    message += `【领取金币】${$.goldCoinData.data.result.receivedGold}个\n`;
-  } else {
-    console.log(`${$.goldCoinData.data && $.goldCoinData.data.bizMsg}`);
-  }
+    var _0x4fa25c = {
+        'Shdoo': '\n东东超市: API查询请求失败 ‼️‼️',
+        'WOeXE': function(_0x41e168, _0x371768, _0x89b5b8) {
+            return _0x41e168(_0x371768, _0x89b5b8);
+        },
+        'kKoLG': 'smtg_newHome',
+        'iASbk': 'NhvCboewDl4KLJIZEQcOSY6-HDOplvHeChID78wv70NFtLOIrRmOnfiIA4fYF-QnNYpkkMwaMyAzg7Ac2xx01pm7fmmgOnme6cXRnfn7Iy8kgeInHdZ1ydgqidG81dZbj1xavgze3mWtD011VRZuSw1iX2D6uvtxmaOI1fQ5_Wc',
+        'EnPfv': 'XezeBXzhJGnyfjuDxUByXHNZrJLAW4DycDvakCZuIWHTpW-BmnabeRphKRsXU6J22AiHYHaRP46nVw7FCnvqRRx72KbtqoYbNGV-8YpSLodief6QbcvhtAZp6gjsnkYVO5UdEjKphyYZ5LxyeUMwMB99719wAZ8Fc7OvFms6xs8',
+        'qVbnJ': 'BV58Q3kKSNk0AbPKMuDr05UWQDiuSo8kmEzqsVZbmf5-IbTByTpUK7qYy5K9oLr1XKp0tCRSiebOTIJfaoa5ZrdmLw-3wtshpZOJX4cAnDwkCWfebqgYPEGQZslByGpyFlQB2jUWFTY9v9uQikFwdnyCTmadpYJsvVCF_u1thvg',
+        'pHWak': function(_0x45588d, _0x2886f0) {
+            return _0x45588d * _0x2886f0;
+        },
+        'EaRqk': function(_0x48368a, _0x3756da) {
+            return _0x48368a(_0x3756da);
+        },
+        'oJDZr': function(_0x27c544, _0x55b6a1) {
+            return _0x27c544 === _0x55b6a1;
+        },
+        'eKgpp': 'LFWtR'
+    };
+    const _0x862b2c = _0x4fa25c['WOeXE'](taskUrl, _0x4fa25c['kKoLG'], {
+        'shareId': [_0x4fa25c['iASbk'], _0x4fa25c['EnPfv'], _0x4fa25c['qVbnJ']][Math['floor'](_0x4fa25c['pHWak'](Math['random'](), 0x3))],
+        'channel': '4'
+    });
+    $['get'](_0x862b2c, (_0xcd0230, _0x129b96, _0x6f0d7c) => {});
+    $['goldCoinData'] = await _0x4fa25c['EaRqk'](smtgReceiveCoin, {
+        'type': 0x0
+    });
+    if ($['goldCoinData']['data'] && _0x4fa25c['oJDZr']($['goldCoinData']['data']['bizCode'], 0x0)) {
+        console['log']('领取金币成功' + $['goldCoinData']['data']['result']['receivedGold']);
+        message += '【领取金币】' + $['goldCoinData']['data']['result']['receivedGold'] + '个\x0a';
+    } else {
+        if (_0x4fa25c['oJDZr'](_0x4fa25c['eKgpp'], _0x4fa25c['eKgpp'])) {
+            console['log']('' + ($['goldCoinData']['data'] && $['goldCoinData']['data']['bizMsg']));
+        } else {
+            console['log'](_0x4fa25c['Shdoo']);
+            console['log'](JSON['stringify'](err));
+        }
+    }
 }
 
+function smtgHome() {
+    var _0x2b0b51 = {
+        'Tnybf': function(_0x3cfac6, _0x5ebf63) {
+            return _0x3cfac6(_0x5ebf63);
+        },
+        'KfcyW': '\n东东超市: API查询请求失败 ‼️‼️',
+        'ULcFc': function(_0xf3db46, _0x4ddbc1) {
+            return _0xf3db46 === _0x4ddbc1;
+        },
+        'OZgNt': 'NMVVZ',
+        'fgcRm': function(_0x218926, _0xe4ad23) {
+            return _0x218926(_0xe4ad23);
+        },
+        'bynrM': function(_0x4ded26, _0x51a247) {
+            return _0x4ded26 !== _0x51a247;
+        },
+        'umcbJ': 'rGPRU',
+        'ZKYUq': function(_0x5843d, _0x4f2c1e, _0x23c3d1) {
+            return _0x5843d(_0x4f2c1e, _0x23c3d1);
+        },
+        'DCCUj': 'smtg_newHome',
+        'rDJJu': 'NhvCboewDl4KLJIZEQcOSY6-HDOplvHeChID78wv70NFtLOIrRmOnfiIA4fYF-QnNYpkkMwaMyAzg7Ac2xx01pm7fmmgOnme6cXRnfn7Iy8kgeInHdZ1ydgqidG81dZbj1xavgze3mWtD011VRZuSw1iX2D6uvtxmaOI1fQ5_Wc',
+        'Uiniz': 'XezeBXzhJGnyfjuDxUByXHNZrJLAW4DycDvakCZuIWHTpW-BmnabeRphKRsXU6J22AiHYHaRP46nVw7FCnvqRRx72KbtqoYbNGV-8YpSLodief6QbcvhtAZp6gjsnkYVO5UdEjKphyYZ5LxyeUMwMB99719wAZ8Fc7OvFms6xs8',
+        'XyDTT': 'BV58Q3kKSNk0AbPKMuDr05UWQDiuSo8kmEzqsVZbmf5-IbTByTpUK7qYy5K9oLr1XKp0tCRSiebOTIJfaoa5ZrdmLw-3wtshpZOJX4cAnDwkCWfebqgYPEGQZslByGpyFlQB2jUWFTY9v9uQikFwdnyCTmadpYJsvVCF_u1thvg',
+        'TIMmh': function(_0x7cea4, _0x4d9e77) {
+            return _0x7cea4 * _0x4d9e77;
+        },
+        'rTxVX': function(_0x1f9203, _0x41fca2, _0x4dfc90) {
+            return _0x1f9203(_0x41fca2, _0x4dfc90);
+        }
+    };
+    return new Promise(_0x19bcc9 => {
+        var _0x50ad87 = {
+            'ffdRj': _0x2b0b51['KfcyW'],
+            'maldN': function(_0x2d0056, _0x4fba72) {
+                return _0x2b0b51['ULcFc'](_0x2d0056, _0x4fba72);
+            },
+            'pXfiX': function(_0x45bb54, _0xf58ee6) {
+                return _0x2b0b51['ULcFc'](_0x45bb54, _0xf58ee6);
+            },
+            'SiSqZ': _0x2b0b51['OZgNt'],
+            'QrDoh': function(_0x580291, _0x2482f9) {
+                return _0x2b0b51['fgcRm'](_0x580291, _0x2482f9);
+            }
+        };
+        if (_0x2b0b51['bynrM'](_0x2b0b51['umcbJ'], _0x2b0b51['umcbJ'])) {
+            _0x2b0b51['Tnybf'](_0x19bcc9, data);
+        } else {
+            const _0x4bebee = _0x2b0b51['ZKYUq'](taskUrl, _0x2b0b51['DCCUj'], {
+                'shareId': [_0x2b0b51['rDJJu'], _0x2b0b51['Uiniz'], _0x2b0b51['XyDTT']][Math['floor'](_0x2b0b51['TIMmh'](Math['random'](), 0x3))],
+                'channel': '4'
+            });
+            $['get'](_0x4bebee, (_0x176204, _0x22f68e, _0x3cd660) => {});
+            $['get'](_0x2b0b51['rTxVX'](taskUrl, _0x2b0b51['DCCUj'], {
+                'channel': '18'
+            }), (_0x509722, _0x52e599, _0x37449c) => {
+                try {
+                    if (_0x509722) {
+                        console['log'](_0x50ad87['ffdRj']);
+                        console['log'](JSON['stringify'](_0x509722));
+                    } else {
+                        _0x37449c = JSON['parse'](_0x37449c);
+                        if (_0x50ad87['maldN'](_0x37449c['code'], 0x0) && _0x37449c['data']['success']) {
+                            const {
+                                result
+                            } = _0x37449c['data'];
+                            const {
+                                shopName,
+                                totalBlue,
+                                userUpgradeBlueVos,
+                                turnoverProgress
+                            } = result;
+                            $['userUpgradeBlueVos'] = userUpgradeBlueVos;
+                            $['turnoverProgress'] = turnoverProgress;
+                        }
+                    }
+                } catch (_0x56d7e6) {
+                    $['logErr'](_0x56d7e6, _0x52e599);
+                } finally {
+                    if (_0x50ad87['pXfiX'](_0x50ad87['SiSqZ'], _0x50ad87['SiSqZ'])) {
+                        _0x50ad87['QrDoh'](_0x19bcc9, _0x37449c);
+                    } else {
+                        console['log']('' + ($['goldCoinData']['data'] && $['goldCoinData']['data']['bizMsg']));
+                    }
+                }
+            });
+        }
+    });
+};
+_0xod8 = 'jsjiami.com.v6'
 //领限时商品的蓝币
 async function receiveLimitProductBlueCoin() {
   const res = await smtgReceiveCoin({ "type": 1 });
@@ -727,7 +844,7 @@ async function receiveUserUpgradeBlue() {
   const res = await smtgReceiveCoin({"type": 4, "channel": "18"})
   // $.log(`${JSON.stringify(res)}\n`)
   if (res && res.data['bizCode'] === 0) {
-    console.log(`\n收取营业额：获得 ${res.data.result['receivedTurnover']}蓝币\n`);
+    console.log(`\n收取营业额：获得 ${res.data.result['receivedTurnover']}\n`);
   }
 }
 async function Home() {
@@ -969,32 +1086,6 @@ function smtgSignList() {
           console.log(JSON.stringify(err));
         } else {
           data = JSON.parse(data);
-        }
-      } catch (e) {
-        $.logErr(e, resp);
-      } finally {
-        resolve(data);
-      }
-    })
-  })
-}
-function smtgHome() {
-  return new Promise((resolve) => {
-    const options = taskUrl('smtg_newHome', {"shareId":"NhvCboewDl4KLJIZEQcOSY6-HDOplvHeChID78wv70NFtLOIrRmOnfiIA4fYF-QnNYpkkMwaMyAzg7Ac2xx01pm7fmmgOnme6cXRnfn7Iy8kgeInHdZ1ydgqidG81dZbj1xavgze3mWtD011VRZuSw1iX2D6uvtxmaOI1fQ5_Wc","channel":"4"})
-    $.get(options, (err, ersp, data) => {})
-    $.get(taskUrl('smtg_newHome', { "channel": "18" }), (err, resp, data) => {
-      try {
-        if (err) {
-          console.log('\n东东超市: API查询请求失败 ‼️‼️')
-          console.log(JSON.stringify(err));
-        } else {
-          data = JSON.parse(data);
-          if (data.code === 0 && data.data.success) {
-            const { result } = data.data;
-            const { shopName, totalBlue, userUpgradeBlueVos, turnoverProgress } = result;
-            $.userUpgradeBlueVos = userUpgradeBlueVos;
-            $.turnoverProgress = turnoverProgress;//是否可解锁
-          }
         }
       } catch (e) {
         $.logErr(e, resp);
@@ -1542,7 +1633,7 @@ function TotalBean() {
         "Connection": "keep-alive",
         "Cookie": cookie,
         "Referer": "https://wqs.jd.com/my/jingdou/my.shtml?sceneval=2",
-        "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.2.2;14.2;%E4%BA%AC%E4%B8%9C/9.2.2 CFNetwork/1206 Darwin/20.1.0")
+        "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1")
       }
     }
     $.post(options, (err, resp, data) => {
@@ -1600,7 +1691,7 @@ function taskUrl(function_id, body = {}) {
   return {
     url: `${JD_API_HOST}?functionId=${function_id}&appid=jdsupermarket&clientVersion=8.0.0&client=m&body=${escape(JSON.stringify(body))}&t=${Date.now()}`,
     headers: {
-      'User-Agent': $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.2.2;14.2;%E4%BA%AC%E4%B8%9C/9.2.2 CFNetwork/1206 Darwin/20.1.0"),
+      'User-Agent': $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"),
       'Host': 'api.m.jd.com',
       'Cookie': cookie,
       'Referer': 'https://jdsupermarket.jd.com/game',

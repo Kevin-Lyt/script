@@ -7,21 +7,21 @@
 // 同一个京东账号的好友互助码用@符号隔开,不同京东账号之间用&符号或者换行隔开,下面给一个示例
 // 如: 京东账号1的shareCode1@京东账号1的shareCode2&京东账号2的shareCode1@京东账号2的shareCode2
 let shareCodes = [
-  'X19r6jziMAzahz96guTouA==@LyU3MkgQ9TQR4aqK0HVj5Q==',//账号一的好友shareCode,不同好友中间用@符号隔开
-  'X19r6jziMAzahz96guTouA==@LyU3MkgQ9TQR4aqK0HVj5Q==',//账号二的好友shareCode，不同好友中间用@符号隔开
-  'X19r6jziMAzahz96guTouA==@LyU3MkgQ9TQR4aqK0HVj5Q==',//账号一的好友shareCode,不同好友中间用@符号隔开
-  'X19r6jziMAzahz96guTouA==@LyU3MkgQ9TQR4aqK0HVj5Q==',//账号一的好友shareCode,不同好友中间用@符号隔开
-  'X19r6jziMAzahz96guTouA==@LyU3MkgQ9TQR4aqK0HVj5Q==',//账号二的好友shareCode，不同好友中间用@符号隔开
-  'X19r6jziMAzahz96guTouA==@LyU3MkgQ9TQR4aqK0HVj5Q==',//账号一的好友shareCode,不同好友中间用@符号隔开
-  'X19r6jziMAzahz96guTouA==@LyU3MkgQ9TQR4aqK0HVj5Q==',//账号一的好友shareCode,不同好友中间用@符号隔开
-  'X19r6jziMAzahz96guTouA==@LyU3MkgQ9TQR4aqK0HVj5Q==',//账号二的好友shareCode，不同好友中间用@符号隔开
-  'X19r6jziMAzahz96guTouA==@LyU3MkgQ9TQR4aqK0HVj5Q==',//账号一的好友shareCode,不同好友中间用@符号隔开
-  'X19r6jziMAzahz96guTouA==@LyU3MkgQ9TQR4aqK0HVj5Q==',//账号一的好友shareCode,不同好友中间用@符号隔开
-  'X19r6jziMAzahz96guTouA==@LyU3MkgQ9TQR4aqK0HVj5Q==',//账号二的好友shareCode，不同好友中间用@符号隔开
-  'X19r6jziMAzahz96guTouA==@LyU3MkgQ9TQR4aqK0HVj5Q==',//账号一的好友shareCode,不同好友中间用@符号隔开
-  'X19r6jziMAzahz96guTouA==@LyU3MkgQ9TQR4aqK0HVj5Q==',//账号一的好友shareCode,不同好友中间用@符号隔开
-  'X19r6jziMAzahz96guTouA==@LyU3MkgQ9TQR4aqK0HVj5Q==',//账号二的好友shareCode，不同好友中间用@符号隔开
-  'X19r6jziMAzahz96guTouA==@LyU3MkgQ9TQR4aqK0HVj5Q==',//账号一的好友shareCode,不同好友中间用@符号隔开
+  'LyU3MkgQ9TQR4aqK0HVj5Q==@X19r6jziMAzahz96guTouA==',//账号一的好友shareCode,不同好友中间用@符号隔开
+  'LyU3MkgQ9TQR4aqK0HVj5Q==@X19r6jziMAzahz96guTouA==',//账号二的好友shareCode，不同好友中间用@符号隔开
+  'LyU3MkgQ9TQR4aqK0HVj5Q==@X19r6jziMAzahz96guTouA==',//账号一的好友shareCode,不同好友中间用@符号隔开
+  'LyU3MkgQ9TQR4aqK0HVj5Q==@X19r6jziMAzahz96guTouA==',//账号一的好友shareCode,不同好友中间用@符号隔开
+  'LyU3MkgQ9TQR4aqK0HVj5Q==@X19r6jziMAzahz96guTouA==',//账号二的好友shareCode，不同好友中间用@符号隔开
+  'LyU3MkgQ9TQR4aqK0HVj5Q==@X19r6jziMAzahz96guTouA==',//账号一的好友shareCode,不同好友中间用@符号隔开
+  'LyU3MkgQ9TQR4aqK0HVj5Q==@X19r6jziMAzahz96guTouA==',//账号一的好友shareCode,不同好友中间用@符号隔开
+  'LyU3MkgQ9TQR4aqK0HVj5Q==@X19r6jziMAzahz96guTouA==',//账号二的好友shareCode，不同好友中间用@符号隔开
+  'LyU3MkgQ9TQR4aqK0HVj5Q==@X19r6jziMAzahz96guTouA==',//账号一的好友shareCode,不同好友中间用@符号隔开
+  'LyU3MkgQ9TQR4aqK0HVj5Q==@X19r6jziMAzahz96guTouA==',//账号一的好友shareCode,不同好友中间用@符号隔开
+  'LyU3MkgQ9TQR4aqK0HVj5Q==@X19r6jziMAzahz96guTouA==',//账号二的好友shareCode，不同好友中间用@符号隔开
+  'LyU3MkgQ9TQR4aqK0HVj5Q==@X19r6jziMAzahz96guTouA==',//账号一的好友shareCode,不同好友中间用@符号隔开
+  'LyU3MkgQ9TQR4aqK0HVj5Q==@X19r6jziMAzahz96guTouA==',//账号一的好友shareCode,不同好友中间用@符号隔开
+  'LyU3MkgQ9TQR4aqK0HVj5Q==@X19r6jziMAzahz96guTouA==',//账号二的好友shareCode，不同好友中间用@符号隔开
+  'LyU3MkgQ9TQR4aqK0HVj5Q==@X19r6jziMAzahz96guTouA==',//账号一的好友shareCode,不同好友中间用@符号隔开
 ]
 // 从日志获取互助码
 const logShareCodes = require('./utils/jdShareCodes');
