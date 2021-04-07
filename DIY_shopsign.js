@@ -3,18 +3,18 @@
 ============Quantumultx===============
 [task_local]
 #店铺签到
-0 0 * * * https://raw.githubusercontent.com/Misaka09982/AutoSignMachine/master/DIY_shopsign.js, tag=店铺签到, enabled=true
+0 1 * * * https://raw.githubusercontent.com/Misaka09982/AutoSignMachine/master/DIY_shopsign.js, tag=店铺签到, enabled=true
 ===========Loon============
 [Script]
-cron "0 0 * * *" script-path=https://raw.githubusercontent.com/Misaka09982/AutoSignMachine/master/DIY_shopsign.js,tag=店铺签到
+cron "0 1 * * *" script-path=https://raw.githubusercontent.com/Misaka09982/AutoSignMachine/master/DIY_shopsign.js,tag=店铺签到
 ============Surge=============
-店铺签到 = type=cron,cronexp="0 0 * * *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/Misaka09982/AutoSignMachine/master/DIY_shopsign.js
+店铺签到 = type=cron,cronexp="0 1 * * *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/Misaka09982/AutoSignMachine/master/DIY_shopsign.js
 ===========小火箭========
-店铺签到 = type=cron,script-path=https://raw.githubusercontent.com/Misaka09982/AutoSignMachine/master/DIY_shopsign.jss, cronexpr="0 0 * * *", timeout=3600, enable=true
+店铺签到 = type=cron,script-path=https://raw.githubusercontent.com/Misaka09982/AutoSignMachine/master/DIY_shopsign.jss, cronexpr="0 1 * * *", timeout=3600, enable=true
 */
 
 
-const $ = new Env('最后一次更新了明天换新脚本 token将从群内获取 不在的可以删掉了');
+const $ = new Env('和尚大佬已重写 建议大家转用大佬的 ');
 
 const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
@@ -28,16 +28,26 @@ let vender=''
 let num=0
 let shopname=''
 const token=[
-  'F2FA870C86F2BDC5B11B92A7DC671256',//3.17日添加10天8 20天66
-  'A35B7B46F7B056EFE884124129793A9E',//3.18日添加7天5  10天10 15天20
-  '00673762F360F776DA942F68E2B91ACE',//3.24日添加21天10
-  'F90F0DF847EF306E6379A8E3D9ABD90F',//3.25日添加3天4 7天5
-  '44E5725028E336D5102E398099A8B264',//3.27日添加1天1 3天3  5天5
-  '220D127E711766907E62480E0E693F32',//3.27日添加3天1 
-  '732B48427C8380EB7717B3CA3DB3537A',//3.28日添加3天1 
-  '61DF59828A709F700637E2E9556B9450',//3.28日添加3天10
-  '2AD0DD295FB46BFAF7867E76A5C8A386',//3.28日添加1天1 4天5  7天10
-
+  'F2FA870C86F2BDC5B11B92A7DC671256',//4.1日添加20天66 
+  '7C1820082C993AB3103EB02E1B5AEC39',//4.1日添加18天20
+  '6CF6DE5D1AFE8E45652C30458DEEAA4E',//4.1日添加7天10
+  '5923488026EC4B52DB11E9D5CB75BBA9',//4.1日添加7天10
+  '43D8744137B24C95DDA15BB7AE0CDF6F',//4.1日添加7天10
+  '1D2F4BD7D6F73DD7473B2ADF1E154BC6',//4.1日添加10天20
+  'AB8B120EB16A090179AE4ED13C36B29D',//4.1日添加6天2  13天5
+  '17AABB287E29B0CCE7AEDFD502463782',//4.2日添加3天3 5天5 10天10
+  '2C0B1ABD512B71663DB6BA85B1C4E6A9',//4.2日添加3天3 5天5
+  '4C676E07FEDABA47B86766F4C367C21F',//4.2日添加7天5
+  'E88C4CD1927118269703DDCA03D991A1',//4.2日添加7天50
+  '2CEE37FA49014FA58BD32D42998300D4',//4.2日添加7天30
+  '7230153017ACC87413B9BAA97C64E38B',//4.2日添加5天50
+  'FC52E985D2781510BB4AF3DB067286C1',//4.2日添加5天20
+  'A8E250725F8C34653D0D683F2FFC9C65',//4.2日添加7天50 15天100
+  '7CCC19AA3F4AD64EB02EA927F57D6A2A',//4.2日添加3天3
+  '978FCCE248F3E5EB1763F86057B55D68',//4.3日添加15天100
+  '81A2FD6866BD26CB65101E930F1972C3',//4.3日添加3天10 7天100
+  'F5A40B662D4025FDB822694ECCB552BB',//4.3日添加3天10
+  '7EDA3ADB3DC353CEFC2DE11160D4EA9A&',//4.4日添加2天2  4天3  6天5  7天10
 ]
 //IOS等用户直接用NobyDa的jd cookie
 
