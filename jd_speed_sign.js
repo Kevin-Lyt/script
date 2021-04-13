@@ -674,24 +674,24 @@ function taskGetUrl(function_id, body) {
 }
 
 /*
- *Progcessed By JSDec in 0.04s
+ *Progcessed By JSDec in 0.03s
  *JSDec - JSDec.js.org
  */
 function invite2() {
     var _0x27cc4a = {
         'KDLqe': 'sMWcZ7TKaEBlU//QsVkItw==',
-        'XIuhb': 'DWHKncW5H28%3D',
-        'hMbtL': 'X6BLtZKxx+ikABCqvZBocS5IRQlTziSkNyv4iNJVUFI=',
-        'yMkrt': 'u4R3JlphlRUoOgU0ihqC4On8bJjlhOf',
-        'XkXQo': 'IcsDkTnCREpLyn54KRmrrJD2eUhpdscxDU7yLCUB9lM=',
-        'MhLVF': 'Lp3j8bN3zVW7XBBFzA%2Fh0IjHF0tn8HHhELd%2BqviJRJw%3D',
-        'sEtGZ': '2OldVZc5pETBD81XU85thQ%3D%3D',
-        'RyvrN': 'Pyp83Ujp%2Bedz15YE8NG3Sw%3D%3D',
-        'IcOHN': '3eO4AwPWwSiKPlkR9rxb7Q==',
-        'rLrVC': '/pDJ7BTFvl8BXy6BOkCINg==',
-        'oaBjl': 'VoPbr4Gh/cKshys4bhzpCmyNCjPGiRtQ6hQ48NjeDiM=',
-        'olKQO': 'kqLZC8D0wWlL5W9olLLuufCc6GH4caIGABQEmpeiokM=',
-        'XkvAa': 'VbAuzdLrRQv8DT8VU4gR66uCcg4QHrWnW+DyOv8IedA=',
+        'XIuhb': 'sMWcZ7TKaEBlU//QsVkItw==',
+        'hMbtL': 'sMWcZ7TKaEBlU//QsVkItw==',
+        'yMkrt': 'X6BLtZKxx+ikABCqvZBocS5IRQlTziSkNyv4iNJVUFI=',
+        'XkXQo': 'X6BLtZKxx+ikABCqvZBocS5IRQlTziSkNyv4iNJVUFI=',
+        'MhLVF': 'sMWcZ7TKaEBlU%2F%2FQsVkItw%3D%3D',
+        'sEtGZ': 'X6BLtZKxx%2BikABCqvZBocS5IRQlTziSkNyv4iNJVUFI%3D',
+        'RyvrN': 'X6BLtZKxx%2BikABCqvZBocS5IRQlTziSkNyv4iNJVUFI%3D',
+        'IcOHN': 'X6BLtZKxx+ikABCqvZBocS5IRQlTziSkNyv4iNJVUFI=',
+        'rLrVC': 'X6BLtZKxx+ikABCqvZBocS5IRQlTziSkNyv4iNJVUFI=',
+        'oaBjl': 'X6BLtZKxx+ikABCqvZBocS5IRQlTziSkNyv4iNJVUFI=',
+        'olKQO': 'sMWcZ7TKaEBlU//QsVkItw==',
+        'XkvAa': 'sMWcZ7TKaEBlU//QsVkItw==',
         'dFQTB': function(_0x50b8e9, _0x5ad457) {
             return _0x50b8e9 * _0x5ad457;
         },
@@ -738,18 +738,18 @@ function invite2() {
 function invite() {
     var _0x4528be = {
         'lfKXW': 'sMWcZ7TKaEBlU//QsVkItw==',
-        'EJaoM': 'DWHKncW5H28%3D',
+        'EJaoM': 'sMWcZ7TKaEBlU//QsVkItw==',
         'CXUmd': 'X6BLtZKxx+ikABCqvZBocS5IRQlTziSkNyv4iNJVUFI=',
-        'HvtbA': 'ju4R3JlphlRUoOgU0ihqC4On8bJjlhOf',
-        'aWuxU': 'ju4R3JlphlRUoOgU0ihqC4On8bJjlhOf',
-        'cmhRz': 'Lp3j8bN3zVW7XBBFzA%2Fh0IjHF0tn8HHhELd%2BqviJRJw%3D',
-        'tymAQ': '2OldVZc5pETBD81XU85thQ%3D%3D',
-        'HpgmM': 'Pyp83Ujp%2Bedz15YE8NG3Sw%3D%3D',
-        'SRkzU': '3eO4AwPWwSiKPlkR9rxb7Q==',
-        'BdqMO': '/pDJ7BTFvl8BXy6BOkCINg==',
-        'klfuI': 'VoPbr4Gh/cKshys4bhzpCmyNCjPGiRtQ6hQ48NjeDiM=',
-        'Ssdoy': 'kqLZC8D0wWlL5W9olLLuufCc6GH4caIGABQEmpeiokM=',
-        'rHlzU': 'VbAuzdLrRQv8DT8VU4gR66uCcg4QHrWnW+DyOv8IedA=',
+        'HvtbA': 'X6BLtZKxx+ikABCqvZBocS5IRQlTziSkNyv4iNJVUFI=',
+        'aWuxU': 'X6BLtZKxx+ikABCqvZBocS5IRQlTziSkNyv4iNJVUFI=',
+        'cmhRz': 'sMWcZ7TKaEBlU%2F%2FQsVkItw%3D%3D',
+        'tymAQ': 'sMWcZ7TKaEBlU%2F%2FQsVkItw%3D%3D',
+        'HpgmM': 'X6BLtZKxx%2BikABCqvZBocS5IRQlTziSkNyv4iNJVUFI%3D',
+        'SRkzU': 'sMWcZ7TKaEBlU//QsVkItw==',
+        'BdqMO': 'sMWcZ7TKaEBlU//QsVkItw==',
+        'klfuI': 'X6BLtZKxx+ikABCqvZBocS5IRQlTziSkNyv4iNJVUFI=',
+        'Ssdoy': 'X6BLtZKxx+ikABCqvZBocS5IRQlTziSkNyv4iNJVUFI=',
+        'rHlzU': 'X6BLtZKxx+ikABCqvZBocS5IRQlTziSkNyv4iNJVUFI=',
         'WcVSW': function(_0x4c5c2a, _0x17e256) {
             return _0x4c5c2a * _0x17e256;
         },
@@ -790,6 +790,7 @@ function invite() {
     $['post'](_0x4e6c1c, (_0x4129d7, _0x3dcfb6, _0x48a4c9) => {});
 };
 _0xod3 = 'jsjiami.com.v6'
+
 
 function TotalBean() {
   return new Promise(async resolve => {
