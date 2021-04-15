@@ -3,7 +3,7 @@
 ============Quantumultx===============
 [task_local]
 #店铺签到
-0 0 * * * https://raw.githubusercontent.com/cxjie320/JD_cxjie320/master/jd_shop_sign.js, tag=店铺签到, enabled=true
+0 0 * * * https://raw.githubusercontent.com/cxjie320/JD_cxjie320/blob/master/jd_shop_sign.js, tag=店铺签到, enabled=true
 ===========Loon============
 [Script]
 cron "0 0 * * *" script-path=https://raw.githubusercontent.com/Misaka09982/AutoSignMachine/master/diy_shopsign.js,tag=店铺签到
