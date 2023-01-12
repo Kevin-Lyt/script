@@ -1,14 +1,15 @@
-name: sync-whzsyx-opencard-scripts
+name: sync-pea-cake-tbk
+
 on:
   schedule:
-    - cron: '*/30 * * * *'
+    - cron: '30 12 */1 * *'
   workflow_dispatch:
   watch:
     types: started
   push:
     branches: [ master ]
   repository_dispatch:
-    types: sync-whzsyx-opencard-scripts
+    types: sync-pea-cake-tbk
 jobs:
   repo-sync:
     env:
@@ -21,11 +22,11 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: sync-whzsyx-opencard-scripts
+      - name: sync-pea-cake-tbk
         uses: repo-sync/github-sync@v2
         if: env.PAT
         with:
-          source_repo: "https://github.com/whzsyx/opencard.git"
+          source_repo: "https://github.com/pea-cake/tbk.git"
           source_branch: "main"
-          destination_branch: "whzsyx-opencard"
+          destination_branch: "pea-cake-tbk"
           github_token: ${{ secrets.PAT }}

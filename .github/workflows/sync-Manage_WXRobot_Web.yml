@@ -1,19 +1,16 @@
-name: sync-akkedaya
+name: Manage_WXRobot_Web
 on:
   schedule:
-    - cron: '*/10 * * * *'
+    - cron: '0 */2 * * *'
   workflow_dispatch:
   watch:
     types: started
-  push:
-    branches: [ master ]
   repository_dispatch:
-    types: sync-akkedaya
+    types: sync-Manage_WXRobot_Web
 jobs:
   repo-sync:
     env:
-      PAT: ${{ secrets.PAT }} #此处PAT需要申请，教程详见：https://www.jianshu.com/p/bb82b3ad1d11
-      dst_key: ${{ secrets.GITEE_PRIVATE_KEY }} # 我自己同步到gitee使用，其他人可忽略
+      PAT: ${{ secrets.PAT }} 
     runs-on: ubuntu-latest
     if: github.event.repository.owner.id == github.event.sender.id
     steps:
@@ -21,11 +18,11 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: sync-akkedaya
+      - name: sync Manage_WXRobot_Web
         uses: repo-sync/github-sync@v2
         if: env.PAT
         with:
-          source_repo: "https://github.com/qitoqito/kedaya.git"
+          source_repo: "https://github.com/xiaorui16888/Manage_WXRobot_Web.git"
           source_branch: "main"
-          destination_branch: "akkedaya"
+          destination_branch: "Manage_WXRobot_Web"
           github_token: ${{ secrets.PAT }}

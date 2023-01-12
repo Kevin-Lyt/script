@@ -1,14 +1,14 @@
-name: sync-jd_tb_auto-scripts
+name: sync-Magic-scripts
 on:
   schedule:
-    - cron: '*/30 * * * *'
+    - cron: '*/20 * * * *'
   workflow_dispatch:
   watch:
     types: started
   push:
     branches: [ master ]
   repository_dispatch:
-    types: sync-jd_tb_auto-scripts
+    types: sync-Magic-scripts
 jobs:
   repo-sync:
     env:
@@ -21,11 +21,11 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: sync-jd_tb_auto-scripts
+      - name: sync-Magic-scripts
         uses: repo-sync/github-sync@v2
         if: env.PAT
         with:
-          source_repo: "https://github.com/czj2369/jd_tb_auto.git"
+          source_repo: "https://github.com/walle1798/WALL.E.git"
           source_branch: "master"
-          destination_branch: "jd_tb_auto"
+          destination_branch: "Magic"
           github_token: ${{ secrets.PAT }}

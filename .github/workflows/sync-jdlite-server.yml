@@ -1,4 +1,4 @@
-name: jbot_diy
+name: sync-jdlite-server
 on:
   schedule:
     - cron: '0 */2 * * *'
@@ -6,7 +6,7 @@ on:
   watch:
     types: started
   repository_dispatch:
-    types: sync-repo
+    types: sync-jdlite-server
 jobs:
   repo-sync:
     env:
@@ -18,12 +18,11 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: sync repo
+      - name: sync-jdlite-server
         uses: repo-sync/github-sync@v2
         if: env.PAT
         with:
-          source_repo: "https://github.com/chiupam/JD_Diy.git"
-          source_branch: "main"
-          destination_branch: "jbot_diy"
+          source_repo: "https://github.com/abinnz/jdlite-server.git"
+          source_branch: "master"
+          destination_branch: "jdlite-server"
           github_token: ${{ secrets.PAT }}
-      

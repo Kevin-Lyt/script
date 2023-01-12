@@ -1,4 +1,4 @@
-name: jbot_diy
+name: sync-Koishi
 on:
   schedule:
     - cron: '0 */2 * * *'
@@ -6,7 +6,7 @@ on:
   watch:
     types: started
   repository_dispatch:
-    types: sync-repo
+    types: sync-Koishi
 jobs:
   repo-sync:
     env:
@@ -18,12 +18,11 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: sync repo
+      - name: sync-Koishi
         uses: repo-sync/github-sync@v2
         if: env.PAT
         with:
-          source_repo: "https://github.com/chiupam/JD_Diy.git"
-          source_branch: "main"
-          destination_branch: "jbot_diy"
+          source_repo: "https://github.com/koishijs/koishi"
+          source_branch: "master"
+          destination_branch: "Koishi"
           github_token: ${{ secrets.PAT }}
-      

@@ -1,14 +1,14 @@
-name: sync-he1pu-scripts
+name: sync-ntchat_demo_code
 on:
   schedule:
-    - cron: '*/30 * * * *'
+    - cron: '30 */1 * * *'
   workflow_dispatch:
   watch:
     types: started
   push:
     branches: [ master ]
   repository_dispatch:
-    types: sync-he1pu-scripts
+    types: sync-ntchat_demo_code
 jobs:
   repo-sync:
     env:
@@ -21,11 +21,11 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: sync-he1pu-scripts
+      - name: sync-ntchat_demo_code
         uses: repo-sync/github-sync@v2
         if: env.PAT
         with:
-          source_repo: "https://github.com/he1pu/JDHelp.git"
+          source_repo: "https://github.com/sailor0913/ntchat_demo_code.git"
           source_branch: "main"
-          destination_branch: "JDHelp"
+          destination_branch: "ntchat_demo_code"
           github_token: ${{ secrets.PAT }}

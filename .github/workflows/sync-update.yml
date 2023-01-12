@@ -1,12 +1,12 @@
-name: jbot_diy
+name: sync-update
 on:
   schedule:
-    - cron: '0 */2 * * *'
+    - cron: '0/30 * * * *'
   workflow_dispatch:
   watch:
     types: started
   repository_dispatch:
-    types: sync-repo
+    types: sync-update
 jobs:
   repo-sync:
     env:
@@ -18,12 +18,11 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: sync repo
+      - name: sync-update
         uses: repo-sync/github-sync@v2
         if: env.PAT
         with:
-          source_repo: "https://github.com/chiupam/JD_Diy.git"
-          source_branch: "main"
-          destination_branch: "jbot_diy"
+          source_repo: "https://gitee.com/msewb/jdrain.git"
+          source_branch: "master"
+          destination_branch: "main"
           github_token: ${{ secrets.PAT }}
-      

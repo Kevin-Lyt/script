@@ -1,4 +1,4 @@
-name: sync-soy-tool/app-script-scripts
+name: sync-Pwolf-Lin-checkin
 on:
   schedule:
     - cron: '1 */3 * * *'
@@ -8,7 +8,7 @@ on:
   push:
     branches: [ master ]
   repository_dispatch:
-    types: sync-soy-tool/app-script-scripts
+    types: sync-Pwolf-Lin-checkin
 jobs:
   repo-sync:
     env:
@@ -21,11 +21,11 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: sync-soy-tool/app-script-scripts
+      - name: sync-Pwolf-Lin-checkin
         uses: repo-sync/github-sync@v2
         if: env.PAT
         with:
-          source_repo: "https://gitee.com/soy-tool/app-script.git"
-          source_branch: "master"
-          destination_branch: "appscript"
+          source_repo: "https://github.com/Pwolf-Lin/checkin.git"
+          source_branch: "main"
+          destination_branch: "Pwolf-Lin-checkin"
           github_token: ${{ secrets.PAT }}

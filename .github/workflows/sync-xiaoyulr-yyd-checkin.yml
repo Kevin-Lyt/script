@@ -1,14 +1,14 @@
-name: sync-cdle/carry-scripts
+name: sync-xiaoyulr-yyd-checkin
 on:
   schedule:
-    - cron: '* */6 * * *'
+    - cron: '1 */3 * * *'
   workflow_dispatch:
   watch:
     types: started
   push:
-    branches: [ main ]
+    branches: [ master ]
   repository_dispatch:
-    types: sync-cdle/carry-scripts
+    types: sync-xiaoyulr-yyd-checkin
 jobs:
   repo-sync:
     env:
@@ -21,11 +21,11 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: sync-cdle/carry-scripts
+      - name: sync-xiaoyulr-yyd-checkin
         uses: repo-sync/github-sync@v2
         if: env.PAT
         with:
-          source_repo: "https://github.com/cdle/carry.git"
+          source_repo: "https://github.com/xiaoyulr/yyd.git"
           source_branch: "main"
-          destination_branch: "cdle-carry"
+          destination_branch: "xiaoyulr-yyd-checkin"
           github_token: ${{ secrets.PAT }}

@@ -1,4 +1,4 @@
-name: jbot_diy
+name: AutoSync
 on:
   schedule:
     - cron: '0 */2 * * *'
@@ -6,7 +6,7 @@ on:
   watch:
     types: started
   repository_dispatch:
-    types: sync-repo
+    types: AutoSync
 jobs:
   repo-sync:
     env:
@@ -18,12 +18,11 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: sync repo
+      - name: AutoSync
         uses: repo-sync/github-sync@v2
         if: env.PAT
         with:
-          source_repo: "https://github.com/chiupam/JD_Diy.git"
+          source_repo: "https://github.com/DovFork/AutoSync.git"
           source_branch: "main"
-          destination_branch: "jbot_diy"
-          github_token: ${{ secrets.PAT }}
-      
+          destination_branch: "AutoSync"
+          github_token: ${{ secrets.PAT }} #此处PAT需要申请，教程详见：https://www.jianshu.com/p/bb82b3ad1d11,需要repo和workflow权限

@@ -1,14 +1,15 @@
-name: sync-star261zoo-scripts
+name: sync-x-ui-yg
+
 on:
   schedule:
-    - cron: '*/30 * * * *'
+    - cron: '50 12 */1 * *'
   workflow_dispatch:
   watch:
     types: started
   push:
     branches: [ master ]
   repository_dispatch:
-    types: sync-star261zoo-scripts
+    types: sync-x-ui-yg
 jobs:
   repo-sync:
     env:
@@ -21,11 +22,11 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: sync-star261zoo-scripts
+      - name: sync-x-ui-yg
         uses: repo-sync/github-sync@v2
         if: env.PAT
         with:
-          source_repo: "https://github.com/star261/jd.git"
+          source_repo: "https://github.com/winstonxg/x-ui-yg.git"
           source_branch: "main"
-          destination_branch: "star261zoo"
+          destination_branch: "x-ui-yg"
           github_token: ${{ secrets.PAT }}
